@@ -60,5 +60,15 @@ namespace BtNodeEditor
         {
             EditorGUILayout.LabelField("Decorator");
         }
+
+        public override string GetNodeType
+        {
+            get
+            {
+                //return "BtNodeEditor.ConditionNode";
+                //just for test;
+                return GetType().FullName;
+            }
+        }
     }
 }

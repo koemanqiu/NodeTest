@@ -58,5 +58,15 @@ namespace BtNodeEditor
         {
             EditorGUILayout.LabelField("Action");
         }
+
+        public override string GetNodeType
+        {
+            get
+            {                
+                //should return the real class you want to store in the tree
+                //just for test;                 
+                return GetType().FullName;
+            }
+        }
     }
 }

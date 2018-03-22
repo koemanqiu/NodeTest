@@ -6,6 +6,8 @@ using NodeEditorFramework;
 using NodeEditorFramework.Utilities;
 using NodeEditorFramework.Standard;
 
+using BtNodeEditor;
+
 public class NodeWindow : EditorWindow
 {
 
@@ -23,6 +25,49 @@ public class NodeWindow : EditorWindow
         _editor.titleContent = new GUIContent("Node Editor", iconTexture);
 
         return _editor;
+    }
+
+    [MenuItem("Game Tools/Save BtCanvas")]
+    public static void SaveBtCanvas()
+    {        
+        if (NodeEditorWindow.editor != null )
+        {
+            if (NodeEditorWindow.editor.canvasCache.nodeCanvas.GetType() != typeof(BtNodeEditor.BtCanvas))
+            {
+                Debug.Log("Can't Save, Not a Bt Canvas");
+            }else
+            {
+                //do sth.
+                Debug.Log("Saving...");
+                SaveMethod((BtCanvas)NodeEditorWindow.editor.canvasCache.nodeCanvas);
+                Debug.Log("Save done.");
+            }
+        }else
+        {
+            Debug.Log("Please open Node Editor and Save....");
+        }
+    }
+
+    static void SaveMethod(BtNodeEditor.BtCanvas bc)
+    {
+        // Check Nodes and their connection ports
+        BtCanvas cav = bc;
+
+        int i = 0;
+        Debug.Log("root is " + cav.m_RootNode);
+        cav.m_RootNode.descendantsCalculated
+        foreach (Node node in cav.nodes)
+        {
+            Debug.Log("No." + i + " node is " + node);
+            int j = 0;
+            foreach (ConnectionPort port in node.connectionPorts)
+            {
+                Debug.Log("No." + i + " node's No." + j +" connect :" + port);
+                ++j;
+            }
+
+            ++i;
+        }
     }
 
 }

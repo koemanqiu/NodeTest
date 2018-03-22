@@ -85,5 +85,14 @@ namespace BtNodeEditor
         //    GUI.Box(nodeRect, GUIContent.none, GUI.skin.box);
         //}
 
+        public override string GetNodeType
+        {
+            get
+            {
+                //return "BtNodeEditor.ConditionNode";
+                //just for test;
+                return GetType().FullName;
+            }
+        }
     }
 }

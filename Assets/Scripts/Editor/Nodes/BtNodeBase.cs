@@ -19,6 +19,7 @@ namespace BtNodeEditor
         }
 
         public abstract Type GetOjbectType { get; }
+        public abstract string GetNodeType { get; }
 
         public override Vector2 DefaultSize
         {

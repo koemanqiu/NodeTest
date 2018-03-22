@@ -57,5 +57,14 @@ namespace BtNodeEditor
             EditorGUILayout.LabelField("Condition");
         }
 
+        public override string GetNodeType
+        {
+            get
+            {
+                //return "BtNodeEditor.ConditionNode";
+                //just for test;
+                return GetType().FullName;
+            }
+        }
     }
 }
