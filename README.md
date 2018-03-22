@@ -1,5 +1,8 @@
 # NodeTest
 
+本项目的主要目的：
+使用NodeEditor画一些树，图，并且能够导出规定格式的“json，xml，etc”
+
 Node Editor一些基本概念
 
 Canvas - 编辑器的画布
