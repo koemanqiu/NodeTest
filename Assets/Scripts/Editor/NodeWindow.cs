@@ -52,13 +52,64 @@ public class NodeWindow : EditorWindow
     {
         // Check Nodes and their connection ports
         BtCanvas cav = bc;
-
-        int i = 0;
-        Debug.Log("root is " + cav.m_RootNode);        
-        foreach (ConnectionKnob ck in cav.m_RootNode.toNextOut.connections)
-        {
-            Debug.Log("child is " + ck.body);
-        }
+        PrintChildren(cav.m_RootNode);
     }
 
+    static void PrintChildren(BtNodeBase node)
+    {
+        bool hasChildren = false;
+        Debug.Log("current is " + node);
+        if ( node is BtRootNode)
+        {
+            if ((node as BtRootNode).toNextOUT != null && (node as BtRootNode).toNextOUT.connections != null)
+            {
+                for ( int i = 0; i < (node as BtRootNode).toNextOUT.connections.Count; ++i)
+                {
+                    PrintChildren((node as BtRootNode).toNextOUT.connections[i].body as BtNodeBase);
+                }
+                //foreach (ConnectionKnob ck in (node as BtRootNode).toNextOUT.connections)
+                //{
+                //    PrintChildren(ck.body as BtNodeBase);
+                //}
+            }
+        }
+
+        if ( node is ControlNode )
+        {
+            if ((node as ControlNode).toNextOUT.connections != null)
+            {
+                List<ConnectionKnob> sortlst = new List<ConnectionKnob>((node as ControlNode).toNextOUT.connections.ToArray()) ;
+
+                sortlst.Sort((x,y) => {
+                    return x.body.position.x.CompareTo(y.body.position.x);
+                }
+                );
+                for ( int i = 0; i < sortlst.Count; ++i)
+                {
+                    PrintChildren(sortlst[i].body as BtNodeBase);
+                }
+
+                //foreach (ConnectionKnob ck in (node as ControlNode).toNextOUT.connections)
+                //{
+                //    PrintChildren(ck.body as BtNodeBase);
+                //}
+            }
+        }
+
+        if ( node is DecoratorNode )
+        {
+            if ((node as DecoratorNode).toNextOUT.connections != null)
+            {
+                for ( int i = 0; i < (node as DecoratorNode).toNextOUT.connections.Count; ++i)
+                {
+                    PrintChildren((node as DecoratorNode).toNextOUT.connections[i].body as BtNodeBase);
+                }
+                //foreach (ConnectionKnob ck in (node as DecoratorNode).toNextOUT.connections)
+                //{
+                //    PrintChildren(ck.body as BtNodeBase);
+                //}
+            }
+        }
+    }
+    
 }

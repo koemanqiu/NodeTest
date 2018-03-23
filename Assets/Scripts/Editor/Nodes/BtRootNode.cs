@@ -45,8 +45,8 @@ namespace BtNodeEditor
             }
         }
 
-        [ConnectionKnob("Output Bottom", Direction.Out, "BtOut", NodeSide.Bottom, 50)]
-        public ConnectionKnob toNextOut;
+        [ConnectionKnob("Output Bottom", Direction.Out, "BtOut", ConnectionCount.Single, NodeSide.Bottom, 50)]
+        public ConnectionKnob toNextOUT;
 
         protected override void OnCreate()
         {
