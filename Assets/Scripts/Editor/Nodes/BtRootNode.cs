@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEditor;
 using NodeEditorFramework;
 using System;
+using System.Reflection;
 
 namespace BtNodeEditor
 {
@@ -79,16 +80,26 @@ namespace BtNodeEditor
             PrintChildren(this);
         }
 
+
         void PrintChildren(BtNodeBase node)
         {
             Debug.Log("current is " + node);
+            PrintNode();
+            
             if (node is BtRootNode)
             {
                 if ((node as BtRootNode).toNextOUT != null && (node as BtRootNode).toNextOUT.connections != null)
                 {
-                    for (int i = 0; i < (node as BtRootNode).toNextOUT.connections.Count; ++i)
+                    List<ConnectionKnob> sortedlst = new List<ConnectionKnob>((node as BtRootNode).toNextOUT.connections.ToArray());
+                    sortedlst.Sort((x, y) =>
                     {
-                        PrintChildren((node as BtRootNode).toNextOUT.connections[i].body as BtNodeBase);
+                        return x.body.position.x.CompareTo(y.body.position.x);
+                    }
+                    );
+
+                    for (int i = 0; i < sortedlst.Count; ++i)
+                    {
+                        PrintChildren(sortedlst[i].body as BtNodeBase);
                     }
                     //foreach (ConnectionKnob ck in (node as BtRootNode).toNextOUT.connections)
                     //{
@@ -101,16 +112,16 @@ namespace BtNodeEditor
             {
                 if ((node as ControlNode).toNextOUT.connections != null)
                 {
-                    List<ConnectionKnob> sortlst = new List<ConnectionKnob>((node as ControlNode).toNextOUT.connections.ToArray());
+                    List<ConnectionKnob> sortedlst = new List<ConnectionKnob>((node as ControlNode).toNextOUT.connections.ToArray());
 
-                    sortlst.Sort((x, y) =>
+                    sortedlst.Sort((x, y) =>
                     {
                         return x.body.position.x.CompareTo(y.body.position.x);
                     }
                     );
-                    for (int i = 0; i < sortlst.Count; ++i)
+                    for (int i = 0; i < sortedlst.Count; ++i)
                     {
-                        PrintChildren(sortlst[i].body as BtNodeBase);
+                        PrintChildren(sortedlst[i].body as BtNodeBase);
                     }
 
                     //foreach (ConnectionKnob ck in (node as ControlNode).toNextOUT.connections)
@@ -124,9 +135,15 @@ namespace BtNodeEditor
             {
                 if ((node as DecoratorNode).toNextOUT.connections != null)
                 {
-                    for (int i = 0; i < (node as DecoratorNode).toNextOUT.connections.Count; ++i)
+
+                    List<ConnectionKnob> sortedlst = new List<ConnectionKnob>((node as DecoratorNode).toNextOUT.connections.ToArray());
+                    sortedlst.Sort((x, y) => {
+                        return x.body.position.x.CompareTo(y.body.position.y);
+                    });
+
+                    for (int i = 0; i < sortedlst.Count; ++i)
                     {
-                        PrintChildren((node as DecoratorNode).toNextOUT.connections[i].body as BtNodeBase);
+                        PrintChildren(sortedlst[i].body as BtNodeBase);
                     }
                     //foreach (ConnectionKnob ck in (node as DecoratorNode).toNextOUT.connections)
                     //{

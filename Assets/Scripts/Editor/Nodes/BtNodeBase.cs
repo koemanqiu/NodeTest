@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using NodeEditorFramework;
 using System;
+using System.Reflection;
 
 namespace BtNodeEditor
 {
@@ -20,6 +21,23 @@ namespace BtNodeEditor
 
         public abstract Type GetOjbectType { get; }
         public abstract string GetNodeType { get; }
+
+        public string PrintNode()
+        {            
+            string retval = "";
+            Type nodetype = Type.GetType(GetNodeType);
+            retval = "Node Type is " + GetNodeType;
+
+            FieldInfo[] flds = nodetype.GetFields();
+            for (int i = 0; i < flds.Length; ++i)
+            {
+                retval += "\n" + flds[i].Name + " = " + flds[i].GetValue(this).ToString();
+            }
+
+            Debug.Log("\n" + retval);
+            return retval;
+            
+        }
 
         public override Vector2 DefaultSize
         {
