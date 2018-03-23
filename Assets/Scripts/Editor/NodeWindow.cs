@@ -54,19 +54,10 @@ public class NodeWindow : EditorWindow
         BtCanvas cav = bc;
 
         int i = 0;
-        Debug.Log("root is " + cav.m_RootNode);
-        cav.m_RootNode.descendantsCalculated
-        foreach (Node node in cav.nodes)
+        Debug.Log("root is " + cav.m_RootNode);        
+        foreach (ConnectionKnob ck in cav.m_RootNode.toNextOut.connections)
         {
-            Debug.Log("No." + i + " node is " + node);
-            int j = 0;
-            foreach (ConnectionPort port in node.connectionPorts)
-            {
-                Debug.Log("No." + i + " node's No." + j +" connect :" + port);
-                ++j;
-            }
-
-            ++i;
+            Debug.Log("child is " + ck.body);
         }
     }
 
